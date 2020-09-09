@@ -2,10 +2,9 @@ import {
     getFlattenedTreePaths,
     doesChangeAffectFlattenedTree,
     isNodeExpanded,
-    nodeHasChildren,
 } from '../selectors/getFlattenedTree';
 import TreeState, {State} from './TreeState';
-import { replaceNodeFromTree, deleteNodeFromTree } from '../selectors/nodes';
+import { replaceNodeFromTree } from '../selectors/nodes';
 
 export default class TreeStateModifiers {
 
@@ -33,21 +32,4 @@ export default class TreeStateModifiers {
         return new State(tree, flattenedTree);
     };
 
-    static deleteNodeAt = (state, index) => {
-        const node = TreeState.getNodeAt(state, index);
-
-        const flattenedTree = [...state.flattenedTree];
-        const flattenedNodeMap = flattenedTree[index];
-        const parents = flattenedNodeMap.slice(0, flattenedNodeMap.length - 1);
-
-        const numberOfVisibleDescendants = nodeHasChildren(node)
-            ? TreeState.getNumberOfVisibleDescendants(state, index)
-            : 0;
-
-        flattenedTree.splice(index, 1 + numberOfVisibleDescendants);
-
-        const tree = deleteNodeFromTree(state.tree, {...node, parents});
-
-        return new State(tree, flattenedTree);
-    };
 }

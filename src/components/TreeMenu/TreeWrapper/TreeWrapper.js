@@ -12,8 +12,6 @@ export default function TreeWrapper({ nodes, onChange, children, nodeMarginLeft,
 
         if (type === UPDATE_TYPE.UPDATE) {
             updatedNodes = TreeStateModifiers.editNodeAt(nodes, index, node);
-        } else {
-            updatedNodes = TreeStateModifiers.deleteNodeAt(nodes, index);
         }
 
         onChange(updatedNodes);

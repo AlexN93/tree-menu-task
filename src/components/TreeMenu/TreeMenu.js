@@ -45,6 +45,5 @@ TreeMenu.propTypes = {
 TreeMenu.defaultProps = {
     height: 750,
     nodeMarginLeft: 30,
-    scrollToIndex: 0,
-    scrollToAlignment: 'auto'
+    scrollToAlignment: 'auto',
 };

@@ -5,14 +5,10 @@ import {UPDATE_TYPE} from '../../constants';
 
 export const getNodeRenderOptions = createSelector(
     node => (node.state || {}).expanded,
-    node => (node.state || {}).favorite,
-    node => (node.state || {}).deletable,
     node => node.children,
-    (expanded, favorite, deletable, children = []) => ({
+    (expanded, children = []) => ({
         hasChildren: !!children.length,
         isExpanded: !!expanded,
-        isFavorite: !!favorite,
-        isDeletable: !!deletable,
     }),
 );
 
@@ -20,7 +16,6 @@ const FLATTEN_TREE_PROPERTIES = ['deepness', 'parents'];
 
 const NODE_OPERATION_TYPES = {
     CHANGE_NODE: 'CHANGE_NODE',
-    DELETE_NODE: 'DELETE_NODE',
 };
 
 const NODE_CHANGE_OPERATIONS = {
@@ -31,7 +26,6 @@ const NODE_CHANGE_OPERATIONS = {
                     ? omit({...updatedNode, ...(n.children && {children: [...n.children]})}, FLATTEN_TREE_PROPERTIES)
                     : n,
         ),
-    DELETE_NODE: (nodes, updatedNode) => nodes.filter(n => n.id !== updatedNode.id),
 };
 
 export const replaceNodeFromTree = (nodes, updatedNode, operation = NODE_OPERATION_TYPES.CHANGE_NODE) => {
@@ -65,10 +59,6 @@ export const replaceNodeFromTree = (nodes, updatedNode, operation = NODE_OPERATI
         },
         ...postSiblings,
     ];
-};
-
-export const deleteNodeFromTree = (nodes, deletedNode) => {
-    return replaceNodeFromTree(nodes, deletedNode, NODE_OPERATION_TYPES.DELETE_NODE);
 };
 
 export const updateNode = (originalNode, newState) => ({
