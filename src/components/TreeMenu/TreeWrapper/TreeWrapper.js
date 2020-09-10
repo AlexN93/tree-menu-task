@@ -5,7 +5,7 @@ import {Node} from '../Tree/shapes/nodeShapes';
 import TreeStateModifiers from '../Tree/state/TreeStateModifiers';
 import {UPDATE_TYPE} from '../constants';
 
-export default function TreeWrapper({ nodes, onChange, children, nodeMarginLeft, width, scrollToIndex, scrollToAlignment }) {
+export default function TreeWrapper({ nodes, onChange, children, nodeMarginLeft, width, scrollToIndex }) {
 
     const handleChange = ({node, type, index}) => {
         let updatedNodes;
@@ -25,7 +25,6 @@ export default function TreeWrapper({ nodes, onChange, children, nodeMarginLeft,
             NodeRenderer={children}
             width={width}
             scrollToIndex={scrollToIndex}
-            scrollToAlignment={scrollToAlignment}
         />
     );
 }
@@ -43,5 +42,4 @@ TreeWrapper.propTypes = {
     width: PropTypes.number,
     nodeMarginLeft: PropTypes.number,
     scrollToIndex: PropTypes.number,
-    scrollToAlignment: PropTypes.string,
 };

@@ -69,7 +69,6 @@ export default function Tree({nodes, NodeRenderer, onChange, nodeMarginLeft, wid
                     rowRenderer={measureRowRenderer(nodes)}
                     width={width || autoWidth}
                     scrollToIndex={scrollToIndex}
-                    scrollToAlignment={scrollToAlignment}
                 />
             )}
         </AutoSizer>
@@ -86,5 +85,4 @@ Tree.propTypes = {
     nodeMarginLeft: PropTypes.number,
     width: PropTypes.number,
     scrollToIndex: PropTypes.number,
-    scrollToAlignment: PropTypes.string,
 };

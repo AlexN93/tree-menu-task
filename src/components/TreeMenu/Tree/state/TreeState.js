@@ -5,15 +5,32 @@ export class State {
     flattenedTree = null;
     tree = null;
 
-    constructor(tree, flattenedTree) {
+    constructor(tree, flattenedTree = null, index = {}) {
         this.tree = tree;
-        this.flattenedTree = flattenedTree || getFlattenedTreePaths(tree);
+        this.flattenedTree = flattenedTree || getFlattenedTreePaths(tree, [], index);
     }
 }
 
 export const validateState = state => {
     if (!(state instanceof State)) {
         throw new Error(`Expected a State instance but got ${typeof state}`);
+    }
+};
+
+const searchTree = (tree, index, expanded) => {
+    for (let node of tree) {
+        if (node.id === index) {
+            if (node.state) {
+                node.state.expanded = expanded;
+            }
+            if (expanded) {
+                // TODO - also open the parents if they are closed
+            }
+            break;
+        }
+        if (node.children && node.children.length) {
+            searchTree(node.children, index, expanded, node);
+        }
     }
 };
 
@@ -64,7 +81,7 @@ export default class TreeState {
         return Math.max(i - 1 - index, 0);
     };
 
-    static createFromTree = tree => {
+    static createFromTree = (tree, index = {}) => {
         if (!tree) {
             throw Error('A falsy tree was supplied in tree creation');
         }
@@ -73,6 +90,16 @@ export default class TreeState {
             throw Error('An invalid tree was supplied in creation');
         }
 
-        return new State(tree);
+        return new State(tree, null, index);
+    };
+
+    static updateTreeById = (state = {}, index, expanded) => {
+        if (!Array.isArray(state.tree)) {
+            throw Error('An invalid tree was supplied in creation');
+        }
+
+        searchTree(state.tree, index, expanded);
+
+        return state;
     };
 }
