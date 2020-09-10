@@ -1,7 +1,5 @@
 # Tree Menu Component
 
-PORT
-
 ## Setup
 `npm i`
 
